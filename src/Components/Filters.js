@@ -1,6 +1,3 @@
-import { useState } from "react";
-import storage from "../api/storage";
-
 function Filters({
   name,
   minPrice,

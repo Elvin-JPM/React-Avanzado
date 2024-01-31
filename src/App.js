@@ -1,11 +1,4 @@
-import {
-  Routes,
-  Route,
-  Navigate,
-  BrowserRouter,
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import SignUpLayout from "./Pages/SignUpLayout.js";
 import AddsPage from "./Pages/AddsPage.js";
@@ -24,7 +17,7 @@ function App() {
           <Route path="login" element={<LoginLayout />}></Route>
           <Route path="adds" element={<AddsPage />}></Route>
           <Route path="adds/new" element={<CreateAddPage />} />
-          <Route path="adds/:id" element={<Ad/>} />
+          <Route path="adds/:id" element={<Ad />} />
           <Route path="/notFound" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

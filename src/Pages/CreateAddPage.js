@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import storage from "../api/storage";
 import { postData } from "../api/api";
 import { useNavigate } from "react-router-dom";
+import Header from "../Components/Header";
 
 function CreateAddPage() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ function CreateAddPage() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [price, setPrice] = useState("");
   const [btnEnabled, setBtnEnabled] = useState(false);
+  // const [show, setShow] = useState(false);
 
   const authToken = storage.get("authToken");
   const sessionToken = sessionStorage.getItem("authToken");
@@ -24,6 +26,11 @@ function CreateAddPage() {
   useEffect(() => {
     setBtnEnabled(enabled);
   }, [enabled]);
+
+  // const handleShow = () =>
+  // {
+  //   setShow(!show);
+  // }
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -87,6 +94,7 @@ function CreateAddPage() {
 
   return (
     <div>
+      <Header />
       <form>
         <label>Name:</label>
         <input

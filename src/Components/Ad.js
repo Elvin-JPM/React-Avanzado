@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import Confirm from "./Confirm";
 import styles from "../Components/Ad.module.css";
+import Header from "./Header";
 
 function Ad() {
   const navigate = useNavigate();
@@ -60,10 +61,11 @@ function Ad() {
 
   return (
     <>
+      <Header />
       <div className={show ? styles.adHidden : ""}>
-        <p>{ad.name}</p>
-        <p>{ad.price}</p>
-        <p>{ad.tags}</p>
+        <p>Name: {ad.name}</p>
+        <p>Price: {ad.price}</p>
+        <p>Tags: {ad.tags}</p>
         <img src={`${ad.photo}`} alt="product"></img>
         <Button text="Delete" handleClick={handleShow} />
       </div>

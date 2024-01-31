@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.navLink {
+  text-decoration: none;
+  color: darkslategray;
+  text-transform: uppercase;
+}
