@@ -1,0 +1,40 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 15px;
+  margin: 15px;
+  padding: 10px;
+}
+
+.deleteBtn {
+  background-color: #fe0000;
+  border-radius: 5px;
+  color: white;
+}
+
+.cancelBtn {
+  background-color: lightgray;
+  border-radius: 5px;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #eeedeb;
+  border: 1px solid gray;
+  width: 120%;
+  border-radius: 8px;
+  box-shadow: 1px 2px 3px 1px;
+}
+
+.modalHidden {
+  display: none;
+}

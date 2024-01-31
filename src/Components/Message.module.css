@@ -1,0 +1,11 @@
+.showSuccess {
+  background-color: green;
+}
+
+.showFailure {
+  background-color: red;
+}
+
+.doNotShow {
+  visibility: hidden;
+}
