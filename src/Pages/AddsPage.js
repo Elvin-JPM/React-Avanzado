@@ -7,9 +7,13 @@ import { getData } from "../api/api";
 import { useNavigate } from "react-router-dom";
 import Filters from "../Components/Filters.js";
 import Header from "../Components/Header.js";
+import { useDispatch, useSelector } from "react-redux";
+import { adsLoaded } from "../store/actions.js";
+import { getAds } from "../store/selectors.js";
 
 function AdsPage() {
-  const [ads, setAds] = useState([]);
+  const dispatch = useDispatch();
+  const ads = useSelector(getAds);
   const navigate = useNavigate();
   const authToken = storage.get("authToken");
   const sessionToken = sessionStorage.getItem("authToken");
@@ -58,7 +62,8 @@ function AdsPage() {
               Authorization: `Bearer ${authToken ? authToken : sessionToken}`,
             },
           });
-          setAds(response);
+          //setAds(response);
+          dispatch(adsLoaded(response));
           console.log(response);
         } catch (error) {}
       };
@@ -67,7 +72,7 @@ function AdsPage() {
     } else {
       navigate("/login");
     }
-  }, [authToken, navigate, sessionToken]);
+  }, [authToken, navigate, sessionToken, dispatch]);
 
   return (
     <div>

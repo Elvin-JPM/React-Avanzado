@@ -6,39 +6,42 @@ import Button from "./Button";
 import Confirm from "./Confirm";
 import styles from "../Components/Ad.module.css";
 import Header from "./Header";
+import { getAd } from "../store/selectors";
+import { useSelector } from "react-redux";
 
-function Ad() {
+export default function Ad() {
   const navigate = useNavigate();
-  const [ad, setAd] = useState("");
+  const params = useParams();
+  const ad = useSelector(getAd(params.id));
+  // const [ad, setAd] = useState("");
   const [show, setShow] = useState(false);
-  const { id } = useParams();
   const authToken = storage.get("authToken");
   const sessionToken = sessionStorage.getItem("authToken");
 
-  useEffect(() => {
-    if (sessionToken || authToken) {
-      try {
-        const fetchData = async () => {
-          const response = await getData(`/v1/adverts/${id}`, {
-            headers: {
-              Authorization: `Bearer ${authToken ? authToken : sessionToken}`,
-            },
-          });
-          console.log(response);
-          setAd(response);
-        };
+  //useEffect(() => {
+  //   if (sessionToken || authToken) {
+  //     try {
+  //       const fetchData = async () => {
+  //         const response = await getData(`/v1/adverts/${id}`, {
+  //           headers: {
+  //             Authorization: `Bearer ${authToken ? authToken : sessionToken}`,
+  //           },
+  //         });
+  //         console.log(response);
+  //         setAd(response);
+  //       };
 
-        fetchData();
-      } catch (error) {}
-    } else {
-      navigate("/login");
-    }
-  }, [authToken, id, navigate, sessionToken]);
+  //       fetchData();
+  //     } catch (error) {}
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // }, [authToken, id, navigate, sessionToken]);
 
-  if (typeof ad === "undefined") {
-    navigate("/notFound");
-    return;
-  }
+  // if (typeof ad === "undefined") {
+  //   navigate("/notFound");
+  //   return;
+  // }
 
   const handleShow = () => {
     setShow(!show);
@@ -80,5 +83,3 @@ function Ad() {
     </>
   );
 }
-
-export default Ad;

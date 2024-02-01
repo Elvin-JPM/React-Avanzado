@@ -6,17 +6,39 @@ import LoginLayout from "./Pages/LoginLayout.js";
 import CreateAddPage from "./Pages/CreateAddPage.js";
 import Ad from "./Components/Ad.js";
 import NotFound from "./Pages/NotFound.js";
+import RequireAuth from "./RequireAuth.js";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginLayout />} />
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <AddsPage />
+              </RequireAuth>
+            }
+          />
           <Route path="signup" element={<SignUpLayout />}></Route>
           <Route path="login" element={<LoginLayout />}></Route>
-          <Route path="adds" element={<AddsPage />}></Route>
-          <Route path="adds/new" element={<CreateAddPage />} />
+          <Route
+            path="adds"
+            element={
+              <RequireAuth>
+                <AddsPage />
+              </RequireAuth>
+            }
+          ></Route>
+          <Route
+            path="adds/new"
+            element={
+              <RequireAuth>
+                <CreateAddPage />
+              </RequireAuth>
+            }
+          />
           <Route path="adds/:id" element={<Ad />} />
           <Route path="/notFound" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
