@@ -4,8 +4,11 @@ import styles from "../Components/header.module.css";
 import storage from "../api/storage.js";
 import Confirm from "./Confirm.js";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { authLogout } from "../store/actions.js";
 
 function Header() {
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const authToken = storage.get("authToken");
   const sessionToken = sessionStorage.getItem("authToken");
@@ -15,7 +18,12 @@ function Header() {
     setShow(!show);
   };
 
+  const onLogout = () => {
+    dispatch(authLogout());
+  };
+
   const handleLogout = () => {
+    onLogout();
     storage.remove("authToken");
     sessionStorage.removeItem("authToken");
     navigate("/login");

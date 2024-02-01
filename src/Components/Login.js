@@ -2,15 +2,22 @@ import axios, { isAxiosError } from "axios";
 import { useState } from "react";
 import { memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { postData } from "../api/api";
 import storage from "../api/storage";
+import { authLogin } from "../store/actions";
 
 function Login({ handleShowMessage }) {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(null);
   const navigate = useNavigate();
+
+  const onLogin = () => {
+    dispatch(authLogin());
+  };
 
   const requestBody = {
     email,
@@ -38,8 +45,10 @@ function Login({ handleShowMessage }) {
             handleShowMessage("", "doNotShow");
             if (remember) {
               storage.set("authToken", response.data.accessToken);
+              onLogin();
             } else {
               sessionStorage.setItem("authToken", response.data.accessToken);
+              onLogin();
             }
             navigate("/adds");
           }, 2000);

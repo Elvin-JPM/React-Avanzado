@@ -4,9 +4,10 @@ import { devToolsEnhancer } from "@redux-devtools/extension";
 import * as actionCreators from "./actions";
 import { ads } from "./reducers";
 
-export default function configureStore() {
+export default function configureStore(preloadedState) {
   const store = createStore(
     combineReducers(reducers),
+    preloadedState,
     devToolsEnhancer({ actionCreators })
   );
   return store;
