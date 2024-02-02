@@ -7,7 +7,23 @@ import { thunk } from "redux-thunk";
 
 const composeEnhancers = composeWithDevTools({ actionCreators });
 
-const middleware = [thunk];
+const logger = (store) => (next) => (action) => {
+  console.group(action.type);
+  console.info("dispatching ", action, store.getState());
+  const result = next(action);
+  console.log("final state", store.getState());
+  console.groupEnd();
+  return result;
+};
+
+const timestamp = () => (next) => (action) => {
+  return next({
+    ...action,
+    meta: { ...action.meta, timestamp: new Date() },
+  });
+};
+
+const middleware = [thunk, timestamp, logger];
 
 export default function configureStore(preloadedState) {
   const store = createStore(

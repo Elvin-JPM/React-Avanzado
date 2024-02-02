@@ -1,20 +1,13 @@
-import axios, { isAxiosError } from "axios";
 import { useState } from "react";
-import { memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { postData } from "../api/api";
-import storage from "../api/storage";
 import {
   authLogin,
   authLoginFailure,
-  authLoginRequest,
-  authLoginSuccess,
   uiResetError,
 } from "../store/actions";
 import { getUI } from "../store/selectors";
-import { login } from "../api/service";
 
 function Login({ handleShowMessage }) {
   const dispatch = useDispatch();

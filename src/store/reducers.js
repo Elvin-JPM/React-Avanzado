@@ -1,9 +1,7 @@
 import { combineReducers } from "redux";
 import {
   ADS_CREATED,
-  ADS_LOADED,
-  AUTH_LOGIN_FAILURE,
-  AUTH_LOGIN_REQUEST,
+  ADS_LOADED_SUCCESS,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGOUT,
   UI_RESET_ERROR,
@@ -11,37 +9,12 @@ import {
 
 const defaultState = {
   auth: false,
-  ads: [],
+  ads: { areLoaded: false, data: [] },
   ui: {
     isFetching: false,
     error: null,
   },
 };
-
-// function reducer(state = defaultState, action) {
-//   switch (action.type) {
-//     case AUTH_LOGIN:
-//       return {
-//         ...state,
-//         auth: true,
-//       };
-//     case AUTH_LOGOUT:
-//       return {
-//         ...state,
-//         auth: false,
-//       };
-//     case ADS_LOADED:
-//       return {
-//         ...state,
-//         ads: action.payload,
-//       };
-//     case ADS_CREATED:
-//       break;
-
-//     default:
-//       return state;
-//   }
-// }
 
 export function auth(state = defaultState.auth, action) {
   switch (action.type) {
@@ -56,8 +29,8 @@ export function auth(state = defaultState.auth, action) {
 
 export function ads(state = defaultState.ads, action) {
   switch (action.type) {
-    case ADS_LOADED:
-      return action.payload;
+    case ADS_LOADED_SUCCESS:
+      return { areLoaded: true, data: action.payload };
     case ADS_CREATED:
       break;
 

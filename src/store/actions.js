@@ -1,8 +1,10 @@
-import { postData } from "../api/api";
 import { login } from "../api/service";
-import storage from "../api/storage";
+
 import {
   ADS_LOADED,
+  ADS_LOADED_FAILURE,
+  ADS_LOADED_REQUEST,
+  ADS_LOADED_SUCCESS,
   AUTH_LOGIN_FAILURE,
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
@@ -30,7 +32,6 @@ export function authLogin(requestBody, remember) {
       dispatch(authLoginSuccess());
     } catch (error) {
       dispatch(authLoginFailure(error));
-      console.log("in authlogin: ", error.message);
       throw error;
     }
   };
@@ -40,10 +41,33 @@ export const authLogout = () => ({
   type: AUTH_LOGOUT,
 });
 
-export const adsLoaded = (ads) => ({
-  type: ADS_LOADED,
+export const adsLoadedSuccess = (ads) => ({
+  type: ADS_LOADED_SUCCESS,
   payload: ads,
 });
+
+export const adsLoadedRequest = () => ({
+  type: ADS_LOADED_REQUEST,
+});
+
+export const adsLoadedFailure = (error) => ({
+  type: ADS_LOADED_FAILURE,
+  error: true,
+  payload: error,
+});
+
+export function loadAds() {
+  return async function (dispatch, getState) {
+    try {
+      dispatch(adsLoadedRequest);
+      await login(requestBody, remember);
+      dispatch(authLoginSuccess());
+    } catch (error) {
+      dispatch(authLoginFailure(error));
+      throw error;
+    }
+  };
+}
 
 export const uiResetError = () => ({
   type: UI_RESET_ERROR,
