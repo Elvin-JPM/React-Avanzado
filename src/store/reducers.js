@@ -2,7 +2,6 @@ import { combineReducers } from "redux";
 import {
   ADS_CREATED,
   ADS_LOADED,
-  AUTH_LOGIN,
   AUTH_LOGIN_FAILURE,
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
@@ -46,7 +45,7 @@ const defaultState = {
 
 export function auth(state = defaultState.auth, action) {
   switch (action.type) {
-    case AUTH_LOGIN:
+    case AUTH_LOGIN_SUCCESS:
       return true;
     case AUTH_LOGOUT:
       return false;
@@ -68,18 +67,21 @@ export function ads(state = defaultState.ads, action) {
 }
 
 export function ui(state = defaultState.ui, action) {
-  switch (action.type) {
-    case AUTH_LOGIN_REQUEST:
-      return { isFetching: true, error: null };
-    case AUTH_LOGIN_SUCCESS:
-      return { isFetching: false, error: null };
-    case AUTH_LOGIN_FAILURE:
-      return { isFetching: false, error: action.payload };
-    case UI_RESET_ERROR:
-      return { ...state, error: action.payload };
-    default:
-      return state;
+  if (action.error) {
+    return { isFetching: false, error: action.payload };
   }
+
+  if (action.type.endsWith("/success")) {
+    return { isFetching: false, error: null };
+  }
+  if (action.type.endsWith("/request")) {
+    return { isFetching: true, error: null };
+  }
+
+  if (action.type === UI_RESET_ERROR) {
+    return { ...state, error: null };
+  }
+  return state;
 }
 
 // export default function combinedReducer(state = defaultState, action) {

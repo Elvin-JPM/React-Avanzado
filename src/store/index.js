@@ -1,14 +1,19 @@
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import * as reducers from "./reducers";
-import { devToolsEnhancer } from "@redux-devtools/extension";
+import { composeWithDevTools } from "@redux-devtools/extension";
 import * as actionCreators from "./actions";
 import { ads } from "./reducers";
+import { thunk } from "redux-thunk";
+
+const composeEnhancers = composeWithDevTools({ actionCreators });
+
+const middleware = [thunk];
 
 export default function configureStore(preloadedState) {
   const store = createStore(
     combineReducers(reducers),
     preloadedState,
-    devToolsEnhancer({ actionCreators })
+    composeEnhancers(applyMiddleware(...middleware))
   );
   return store;
 }
