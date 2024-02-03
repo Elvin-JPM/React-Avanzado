@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Filters from "../Components/Filters.js";
 import Header from "../Components/Header.js";
 import { useDispatch, useSelector } from "react-redux";
-import { adsLoaded } from "../store/actions.js";
+import { adsLoaded, loadAds } from "../store/actions.js";
 import { getAds } from "../store/selectors.js";
 
 function AdsPage() {
@@ -17,6 +17,7 @@ function AdsPage() {
   const navigate = useNavigate();
   const authToken = storage.get("authToken");
   const sessionToken = sessionStorage.getItem("authToken");
+  const token = authToken || sessionToken;
 
   const [name, setName] = useState("");
   const [tags, setTags] = useState([]); // tags
@@ -54,25 +55,8 @@ function AdsPage() {
   };
 
   useEffect(() => {
-    if (sessionToken || authToken) {
-      const fetchData = async () => {
-        try {
-          const response = await getData("/v1/adverts", {
-            headers: {
-              Authorization: `Bearer ${authToken ? authToken : sessionToken}`,
-            },
-          });
-          //setAds(response);
-          dispatch(adsLoaded(response));
-          console.log(response);
-        } catch (error) {}
-      };
-
-      fetchData();
-    } else {
-      navigate("/login");
-    }
-  }, [authToken, navigate, sessionToken, dispatch]);
+    dispatch(loadAds(token));
+  }, []);
 
   return (
     <div>

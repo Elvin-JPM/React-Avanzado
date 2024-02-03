@@ -3,9 +3,17 @@ import * as reducers from "./reducers";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import * as actionCreators from "./actions";
 import { ads } from "./reducers";
-import { thunk } from "redux-thunk";
+import { thunk, withExtraArgument } from "redux-thunk";
+import { getAds, login } from "../api/service";
 
 const composeEnhancers = composeWithDevTools({ actionCreators });
+
+// const thunk = (extraArgument) => (store) => (next) => (action) => {
+//   if (typeof action === "function") {
+//     return action(store.dispatch, store.getState, extraArgument);
+//   }
+//   next(action);
+// };
 
 const logger = (store) => (next) => (action) => {
   console.group(action.type);
@@ -23,9 +31,12 @@ const timestamp = () => (next) => (action) => {
   });
 };
 
-const middleware = [thunk, timestamp, logger];
-
-export default function configureStore(preloadedState) {
+export default function configureStore(preloadedState, { router }) {
+  const middleware = [
+    withExtraArgument({ api: { login, getAds }, router }),
+    timestamp,
+    logger,
+  ];
   const store = createStore(
     combineReducers(reducers),
     preloadedState,

@@ -6,19 +6,20 @@ import storage from "./api/storage";
 
 import configureStore from "./store";
 import Root from "./Root";
+import { createBrowserRouter } from "react-router-dom";
 
 const authToken = storage.get("authToken");
 const sessionToken = sessionStorage.getItem("authToken");
 
 const accessToken = authToken || sessionToken;
 
-const store = configureStore({ auth: !!accessToken });
+const router = createBrowserRouter([{ path: "*", element: <App /> }]);
+
+const store = configureStore({ auth: !!accessToken }, { router });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Root store={store}>
-      <App />
-    </Root>
+    <Root store={store} router={router} />
   </React.StrictMode>
 );

@@ -1,7 +1,6 @@
-import { login } from "../api/service";
+import { areAdsLoaded } from "./selectors";
 
 import {
-  ADS_LOADED,
   ADS_LOADED_FAILURE,
   ADS_LOADED_REQUEST,
   ADS_LOADED_SUCCESS,
@@ -25,11 +24,13 @@ export const authLoginSuccess = () => ({
 });
 
 export function authLogin(requestBody, remember) {
-  return async function (dispatch, getState) {
+  return async function (dispatch, getState, { api: { login }, router }) {
     try {
       dispatch(authLoginRequest());
       await login(requestBody, remember);
       dispatch(authLoginSuccess());
+      const to = router.state.location.state?.from?.pathname || "/";
+      router.navigate(to);
     } catch (error) {
       dispatch(authLoginFailure(error));
       throw error;
@@ -56,14 +57,17 @@ export const adsLoadedFailure = (error) => ({
   payload: error,
 });
 
-export function loadAds() {
-  return async function (dispatch, getState) {
+export function loadAds(token) {
+  return async function (dispatch, getState, { api: { getAds } }) {
+    if (areAdsLoaded(getState())) {
+      return;
+    }
     try {
-      dispatch(adsLoadedRequest);
-      await login(requestBody, remember);
-      dispatch(authLoginSuccess());
+      dispatch(adsLoadedRequest());
+      const adsList = await getAds(token);
+      dispatch(adsLoadedSuccess(adsList));
     } catch (error) {
-      dispatch(authLoginFailure(error));
+      dispatch(adsLoadedFailure(error));
       throw error;
     }
   };

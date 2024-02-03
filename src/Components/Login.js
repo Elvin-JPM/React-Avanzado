@@ -2,11 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  authLogin,
-  authLoginFailure,
-  uiResetError,
-} from "../store/actions";
+import { authLogin, authLoginFailure, uiResetError } from "../store/actions";
 import { getUI } from "../store/selectors";
 
 function Login({ handleShowMessage }) {
@@ -42,24 +38,6 @@ function Login({ handleShowMessage }) {
     if (email && password) {
       try {
         await dispatch(authLogin(requestBody, remember));
-        // const response = await postData("/auth/login", requestBody);
-
-        // if (response) {
-        //   handleShowMessage("Success!", "showSuccess");
-        //   setTimeout(() => {
-        //     handleShowMessage("", "doNotShow");
-        //     if (remember) {
-        //       storage.set("authToken", response.data.accessToken);
-        //     } else {
-        //       sessionStorage.setItem("authToken", response.data.accessToken);
-        //     }
-        //     dispatch(authLoginSuccess());
-        //     navigate("/adds");
-        //   }, 2000);
-        // } else {
-        //   throw new Error("Invalid credentials.");
-        // }
-
         navigate("/adds");
       } catch (error) {
         dispatch(authLoginFailure(error));

@@ -7,44 +7,41 @@ import CreateAddPage from "./Pages/CreateAddPage.js";
 import Ad from "./Components/Ad.js";
 import NotFound from "./Pages/NotFound.js";
 import RequireAuth from "./RequireAuth.js";
+import { RouterProvider as Router } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <RequireAuth>
-                <AddsPage />
-              </RequireAuth>
-            }
-          />
-          <Route path="signup" element={<SignUpLayout />}></Route>
-          <Route path="login" element={<LoginLayout />}></Route>
-          <Route
-            path="adds"
-            element={
-              <RequireAuth>
-                <AddsPage />
-              </RequireAuth>
-            }
-          ></Route>
-          <Route
-            path="adds/new"
-            element={
-              <RequireAuth>
-                <CreateAddPage />
-              </RequireAuth>
-            }
-          />
-          <Route path="adds/:id" element={<Ad />} />
-          <Route path="/notFound" element={<NotFound />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <RequireAuth>
+            <AddsPage />
+          </RequireAuth>
+        }
+      />
+      <Route path="signup" element={<SignUpLayout />}></Route>
+      <Route path="login" element={<LoginLayout />}></Route>
+      <Route
+        path="adds"
+        element={
+          <RequireAuth>
+            <AddsPage />
+          </RequireAuth>
+        }
+      ></Route>
+      <Route
+        path="adds/new"
+        element={
+          <RequireAuth>
+            <CreateAddPage />
+          </RequireAuth>
+        }
+      />
+      <Route path="adds/:id" element={<Ad />} />
+      <Route path="/notFound" element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 

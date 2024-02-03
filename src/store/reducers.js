@@ -1,4 +1,3 @@
-import { combineReducers } from "redux";
 import {
   ADS_CREATED,
   ADS_LOADED_SUCCESS,
