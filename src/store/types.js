@@ -10,4 +10,10 @@ export const ADS_LOADED_REQUEST = "ads/loaded/request";
 export const ADS_LOADED_SUCCESS = "ads/loaded/success";
 export const ADS_LOADED_FAILURE = "ads/loaded/failure";
 
-export const ADS_CREATED = "ads/created";
+export const AD_DETAIL_REQUEST = "ad/detail/request";
+export const AD_DETAIL_SUCCESS = "ad/detail/success";
+export const AD_DETAIL_FAILURE = "ad/detail/failure";
+
+export const AD_CREATE_REQUEST = "ad/create/request";
+export const AD_CREATE_SUCCESS = "ad/create/success";
+export const AD_CREATE_FAILURE = "ad/create/failure";

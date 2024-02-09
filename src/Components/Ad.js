@@ -7,45 +7,41 @@ import Confirm from "./Confirm";
 import styles from "../Components/Ad.module.css";
 import Header from "./Header";
 import { getAd } from "../store/selectors";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { loadAd } from "../api/service";
+import { adDetail } from "../store/actions";
 
 export default function Ad() {
   const navigate = useNavigate();
   const params = useParams();
   const ad = useSelector(getAd(params.id));
-  // const [ad, setAd] = useState("");
   const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+
+  //////////// delete later /////////////
+
   const authToken = storage.get("authToken");
   const sessionToken = sessionStorage.getItem("authToken");
+  const token = authToken || sessionToken;
 
-  //useEffect(() => {
-  //   if (sessionToken || authToken) {
-  //     try {
-  //       const fetchData = async () => {
-  //         const response = await getData(`/v1/adverts/${id}`, {
-  //           headers: {
-  //             Authorization: `Bearer ${authToken ? authToken : sessionToken}`,
-  //           },
-  //         });
-  //         console.log(response);
-  //         setAd(response);
-  //       };
+  //////////////////////////////////////
 
-  //       fetchData();
-  //     } catch (error) {}
-  //   } else {
-  //     navigate("/login");
-  //   }
-  // }, [authToken, id, navigate, sessionToken]);
-
-  // if (typeof ad === "undefined") {
-  //   navigate("/notFound");
-  //   return;
-  // }
+  useEffect(() => {
+    try {
+      dispatch(adDetail(params.id));
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, [dispatch, params.id]);
 
   const handleShow = () => {
     setShow(!show);
   };
+
+  if (typeof ad === "undefined") {
+    navigate("/notFound");
+    return;
+  }
 
   const handleDeleteClick = async () => {
     const response = await deleteData(`/v1/adverts/${ad.id}`, {

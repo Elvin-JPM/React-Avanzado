@@ -1,6 +1,7 @@
 import {
-  ADS_CREATED,
   ADS_LOADED_SUCCESS,
+  AD_CREATE_SUCCESS,
+  AD_DETAIL_SUCCESS,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGOUT,
   UI_RESET_ERROR,
@@ -30,9 +31,10 @@ export function ads(state = defaultState.ads, action) {
   switch (action.type) {
     case ADS_LOADED_SUCCESS:
       return { areLoaded: true, data: action.payload };
-    case ADS_CREATED:
-      break;
-
+    case AD_DETAIL_SUCCESS:
+      return { areLoaded: false, data: [action.payload] };
+    case AD_CREATE_SUCCESS:
+      return { ...state, data: [action.payload, ...state.data] };
     default:
       return state;
   }
@@ -55,12 +57,3 @@ export function ui(state = defaultState.ui, action) {
   }
   return state;
 }
-
-// export default function combinedReducer(state = defaultState, action) {
-//   return {
-//     auth: auth(state.auth, action),
-//     ads: ads(state.ads, action),
-//   };
-// }
-
-// export default combineReducers({ auth: auth, ads: ads });

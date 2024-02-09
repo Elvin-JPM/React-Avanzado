@@ -3,6 +3,8 @@ import storage from "../api/storage";
 import { postData } from "../api/api";
 import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
+import { useDispatch } from "react-redux";
+import { adCreate } from "../store/actions";
 
 function CreateAddPage() {
   const navigate = useNavigate();
@@ -13,10 +15,9 @@ function CreateAddPage() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [price, setPrice] = useState("");
   const [btnEnabled, setBtnEnabled] = useState(false);
+  const dispatch = useDispatch();
   // const [show, setShow] = useState(false);
 
-  const authToken = storage.get("authToken");
-  const sessionToken = sessionStorage.getItem("authToken");
   const enabled =
     name.length !== "" &&
     selectedOptions.length > 0 &&
@@ -64,32 +65,15 @@ function CreateAddPage() {
 
   const handleCreateAdd = (event) => {
     event.preventDefault();
-    if (authToken || sessionToken) {
-      try {
-        const postAdd = async () => {
-          const response = await postData(
-            "/v1/adverts",
-            {
-              name: name,
-              sale: radioOption === "For sale" ? true : false,
-              price: price,
-              tags: selectedOptions,
-              photo: selectedImage,
-            },
-            {
-              Authorization: `Bearer ${authToken ? authToken : sessionToken}`,
-              "Content-Type": "multipart/form-data",
-            }
-          );
-          console.log("Response from create Add: ", response);
-          const data = await response.data;
-          navigate(`/adds/${data.id}`);
-        };
-        postAdd();
-      } catch (error) {}
-    } else {
-      navigate("/login");
-    }
+    const newAd = {
+      name: name,
+      sale: radioOption === "For sale" ? true : false,
+      price: price,
+      tags: selectedOptions,
+      photo: selectedImage,
+    };
+
+    dispatch(adCreate(newAd));
   };
 
   return (

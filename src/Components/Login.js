@@ -30,7 +30,6 @@ function Login({ handleShowMessage }) {
   };
 
   const handleRememberUser = (event) => {
-    console.log(event.target.checked);
     setRemember(event.target.checked);
   };
 
@@ -38,7 +37,6 @@ function Login({ handleShowMessage }) {
     if (email && password) {
       try {
         await dispatch(authLogin(requestBody, remember));
-        navigate("/adds");
       } catch (error) {
         dispatch(authLoginFailure(error));
         handleShowMessage(error.message, "showFailure");

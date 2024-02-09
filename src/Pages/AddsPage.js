@@ -14,10 +14,6 @@ import { getAds } from "../store/selectors.js";
 function AdsPage() {
   const dispatch = useDispatch();
   const ads = useSelector(getAds);
-  const navigate = useNavigate();
-  const authToken = storage.get("authToken");
-  const sessionToken = sessionStorage.getItem("authToken");
-  const token = authToken || sessionToken;
 
   const [name, setName] = useState("");
   const [tags, setTags] = useState([]); // tags
@@ -55,7 +51,7 @@ function AdsPage() {
   };
 
   useEffect(() => {
-    dispatch(loadAds(token));
+    dispatch(loadAds());
   }, []);
 
   return (
