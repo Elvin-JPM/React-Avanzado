@@ -13,8 +13,6 @@ function Login({ handleShowMessage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(null);
-  const navigate = useNavigate();
-
   const resetError = () => {
     dispatch(uiResetError());
   };
@@ -70,7 +68,12 @@ function Login({ handleShowMessage }) {
           handleChange={handleChange}
         ></Input>
 
-        <input type="button" value={"Login"} onClick={handleClick}></input>
+        <input
+          role="button"
+          type="button"
+          value={"Login"}
+          onClick={handleClick}
+        ></input>
         <div>
           <input
             type="checkbox"
