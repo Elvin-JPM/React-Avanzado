@@ -1,8 +1,9 @@
 import { getData, postData } from "./api";
 import storage from "./storage";
-const authToken = storage.get("authToken");
-const sessionToken = sessionStorage.getItem("authToken");
-const token = authToken || sessionToken;
+
+let authToken = storage.get("authToken");
+let sessionToken = sessionStorage.getItem("authToken");
+let token = authToken || sessionToken;
 
 export const login = async (requestBody, remember) => {
   try {
@@ -11,6 +12,9 @@ export const login = async (requestBody, remember) => {
       remember
         ? storage.set("authToken", response.data.accessToken)
         : sessionStorage.setItem("authToken", response.data.accessToken);
+      authToken = storage.get("authToken");
+      sessionToken = sessionStorage.getItem("authToken");
+      token = authToken || sessionToken;
     } else {
       throw new Error("Invalid credentials.");
     }
@@ -29,7 +33,7 @@ export const getAds = async () => {
     if (response) {
       return response;
     } else {
-      throw new Error(`Couldn't load data`);
+      throw new Error(`Couldn't load data (ads)`);
     }
   } catch (error) {
     throw error;
@@ -46,11 +50,9 @@ export const loadAd = async (adId) => {
     if (response) {
       return response;
     } else {
-      throw new Error(`Couldn't load data`);
+      throw new Error(`Couldn't load data (ad)`);
     }
-    //setAd(response);
   } catch (error) {
-    console.log("Loading from service:", error);
     throw error;
   }
 };

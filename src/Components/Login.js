@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,9 +13,14 @@ function Login({ handleShowMessage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(null);
+  const [btnDisabled, setBtnDisabled] = useState(true);
   const resetError = () => {
     dispatch(uiResetError());
   };
+
+  useEffect(() => {
+    email && password ? setBtnDisabled(false) : setBtnDisabled(true);
+  }, [setBtnDisabled, email, password]);
 
   const requestBody = {
     email,
@@ -31,7 +36,8 @@ function Login({ handleShowMessage }) {
     setRemember(event.target.checked);
   };
 
-  const handleClick = async () => {
+  const handleClick = async (e) => {
+    e.preventDefault();
     if (email && password) {
       try {
         await dispatch(authLogin(requestBody, remember));
@@ -41,6 +47,9 @@ function Login({ handleShowMessage }) {
         setTimeout(() => {
           handleShowMessage("", "doNotShow");
         }, 2000);
+      } finally {
+        // Re-enable the button after the dispatch is finished
+        setBtnDisabled(false);
       }
     } else {
       handleShowMessage("Email and password required", "showFailure");
@@ -68,12 +77,9 @@ function Login({ handleShowMessage }) {
           handleChange={handleChange}
         ></Input>
 
-        <input
-          role="button"
-          type="button"
-          value={"Login"}
-          onClick={handleClick}
-        ></input>
+        <button value={"Login"} onClick={handleClick} disabled={btnDisabled}>
+          Login
+        </button>
         <div>
           <input
             type="checkbox"

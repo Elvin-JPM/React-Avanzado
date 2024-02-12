@@ -66,14 +66,14 @@ export const adsLoadedFailure = (error) => ({
   payload: error,
 });
 
-export function loadAds(token) {
+export function loadAds() {
   return async function (dispatch, getState, { api: { getAds } }) {
     if (areAdsLoaded(getState())) {
       return;
     }
     try {
       dispatch(adsLoadedRequest());
-      const adsList = await getAds(token);
+      const adsList = await getAds();
       dispatch(adsLoadedSuccess(adsList));
     } catch (error) {
       dispatch(adsLoadedFailure(error));
@@ -99,19 +99,18 @@ export const adDetailFailure = (error) => ({
   payload: error,
 });
 
-export function adDetail(token, adId) {
+export function adDetail(adId) {
   return async function (dispatch, getState, { api: { loadAd }, router }) {
     if (getAd(adId)(getState())) {
       return;
     }
     try {
       dispatch(adDetailRequest());
-      const ad = await loadAd(token, adId);
+      const ad = await loadAd(adId);
       dispatch(adDetailSuccess(ad));
     } catch (error) {
-      dispatch(adDetailFailure());
-      const to = "/notFound";
-      router.navigate(to);
+      dispatch(adDetailFailure(error));
+      router.navigate("/notFound");
     }
   };
 }

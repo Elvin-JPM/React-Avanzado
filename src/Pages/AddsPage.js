@@ -2,13 +2,10 @@ import { useEffect, useState } from "react";
 import NoAddsYet from "../Components/NoAddsYet";
 import Ads from "../Components/Ads";
 
-import storage from "../api/storage";
-import { getData } from "../api/api";
-import { useNavigate } from "react-router-dom";
 import Filters from "../Components/Filters.js";
 import Header from "../Components/Header.js";
 import { useDispatch, useSelector } from "react-redux";
-import { adsLoaded, loadAds } from "../store/actions.js";
+import { loadAds } from "../store/actions.js";
 import { getAds } from "../store/selectors.js";
 
 function AdsPage() {
@@ -52,7 +49,7 @@ function AdsPage() {
 
   useEffect(() => {
     dispatch(loadAds());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>

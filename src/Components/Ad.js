@@ -8,8 +8,7 @@ import styles from "../Components/Ad.module.css";
 import Header from "./Header";
 import { getAd } from "../store/selectors";
 import { useSelector, useDispatch } from "react-redux";
-import { loadAd } from "../api/service";
-import { adDetail } from "../store/actions";
+import { adDetail, loadAds } from "../store/actions";
 
 export default function Ad() {
   const navigate = useNavigate();
@@ -30,23 +29,23 @@ export default function Ad() {
     try {
       dispatch(adDetail(params.id));
     } catch (error) {
-      console.log(error.message);
+      console.log("error at ad.js: ", error.message);
+      navigate("/notFound");
     }
-  }, [dispatch, params.id]);
+  }, [dispatch, params.id, navigate]);
 
   const handleShow = () => {
     setShow(!show);
   };
 
   if (typeof ad === "undefined") {
-    navigate("/notFound");
     return;
   }
 
   const handleDeleteClick = async () => {
     const response = await deleteData(`/v1/adverts/${ad.id}`, {
       headers: {
-        Authorization: `Bearer ${authToken ? authToken : sessionToken}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     console.log("Response... :", response, ad.id);

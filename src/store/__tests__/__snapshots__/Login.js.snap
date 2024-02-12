@@ -13,10 +13,12 @@ exports[`Login snapshot 1`] = `
       type="password"
       value=""
     />
-    <input
-      type="button"
+    <button
+      disabled=""
       value="Login"
-    />
+    >
+      Login
+    </button>
     <div>
       <input
         id="remember"
