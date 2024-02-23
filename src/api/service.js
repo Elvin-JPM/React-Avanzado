@@ -1,4 +1,4 @@
-import { getData, postData } from "./api";
+import { getData, postData, deleteData } from "./api";
 import storage from "./storage";
 
 let authToken = storage.get("authToken");
@@ -74,4 +74,21 @@ export const createAd = async (ad) => {
   } catch (error) {
     throw error;
   }
+};
+
+//////////////////// DELETE AD /////////////////////////////////
+
+export const deleteAd = async (id) => {
+  await deleteData(`/v1/adverts/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+///////////////////// GET TAGS /////////////////////////////////
+
+export const getTags = async () => {
+  const response = await getData("/v1/adverts/tags");
+  return response;
 };

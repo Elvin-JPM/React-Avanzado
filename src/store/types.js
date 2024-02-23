@@ -17,3 +17,11 @@ export const AD_DETAIL_FAILURE = "ad/detail/failure";
 export const AD_CREATE_REQUEST = "ad/create/request";
 export const AD_CREATE_SUCCESS = "ad/create/success";
 export const AD_CREATE_FAILURE = "ad/create/failure";
+
+export const AD_DELETE_REQUEST = "ad/delete/request";
+export const AD_DELETE_SUCCESS = "ad/delete/success";
+export const AD_DELETE_FAILURE = "ad/delete/failure";
+
+export const GET_TAGS_REQUEST = "tags/get/request";
+export const GET_TAGS_SUCCESS = "tags/get/success";
+export const GET_TAGS_FAILURE = "tags/get/failure";

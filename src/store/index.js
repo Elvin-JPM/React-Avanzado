@@ -4,7 +4,7 @@ import { composeWithDevTools } from "@redux-devtools/extension";
 import * as actionCreators from "./actions";
 import { ads } from "./reducers";
 import { thunk, withExtraArgument } from "redux-thunk";
-import { getAds, login, loadAd, createAd } from "../api/service";
+import { getAds, login, loadAd, createAd, deleteAd } from "../api/service";
 
 const composeEnhancers = composeWithDevTools({ actionCreators });
 
@@ -45,7 +45,10 @@ const failureRedirects =
 
 export default function configureStore(preloadedState, { router }) {
   const middleware = [
-    withExtraArgument({ api: { login, getAds, loadAd, createAd }, router }),
+    withExtraArgument({
+      api: { login, getAds, loadAd, createAd, deleteAd },
+      router,
+    }),
     timestamp,
     failureRedirects(router, { 401: "/login", 404: "/notFound" }),
     logger,

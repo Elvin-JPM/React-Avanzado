@@ -1,6 +1,7 @@
 import {
   ADS_LOADED_SUCCESS,
   AD_CREATE_SUCCESS,
+  AD_DELETE_SUCCESS,
   AD_DETAIL_SUCCESS,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGOUT,
@@ -35,6 +36,11 @@ export function ads(state = defaultState.ads, action) {
       return { areLoaded: false, data: [action.payload] };
     case AD_CREATE_SUCCESS:
       return { ...state, data: [action.payload, ...state.data] };
+    case AD_DELETE_SUCCESS:
+      return {
+        ...state,
+        data: state.data.filter((ad) => ad.id !== action.payload),
+      };
     default:
       return state;
   }

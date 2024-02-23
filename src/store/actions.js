@@ -7,6 +7,9 @@ import {
   AD_CREATE_FAILURE,
   AD_CREATE_REQUEST,
   AD_CREATE_SUCCESS,
+  AD_DELETE_FAILURE,
+  AD_DELETE_REQUEST,
+  AD_DELETE_SUCCESS,
   AD_DETAIL_FAILURE,
   AD_DETAIL_REQUEST,
   AD_DETAIL_SUCCESS,
@@ -132,17 +135,49 @@ export const adCreateFailure = (error) => ({
   payload: error,
 });
 
-export function adCreate(token, ad) {
+export function adCreate(ad) {
   return async function (dispatch, _getState, { api: { createAd }, router }) {
     try {
       dispatch(adCreateRequest());
-      const newAd = await createAd(token, ad);
+      const newAd = await createAd(ad);
       dispatch(adCreateSuccess(newAd));
       const to = `/adds/${newAd.id}`;
       router.navigate(to);
     } catch (error) {
       dispatch(adCreateFailure());
-      console.log("Erro at adCreate:", error);
+      console.log("Error at adCreate:", error);
+    }
+  };
+}
+
+//////////////////////////////////// DELETE AD ////////////////////////////////////////////
+
+export const adDeleteSuccess = (ad) => ({
+  type: AD_DELETE_SUCCESS,
+  payload: ad,
+});
+
+export const adDeleteRequest = () => ({
+  type: AD_DELETE_REQUEST,
+});
+
+export const adDeleteFailure = (error) => ({
+  type: AD_DELETE_FAILURE,
+  error: true,
+  payload: error,
+});
+
+export function adDelete(ad) {
+  return async function (dispatch, _getState, { api: { deleteAd }, router }) {
+    try {
+      dispatch(adDeleteRequest());
+      await deleteAd(ad.id);
+      dispatch(adDeleteSuccess(ad));
+      const to = `/adds`;
+      router.navigate(to);
+    } catch (error) {
+      dispatch(adDeleteFailure());
+      console.log("Error at adCreate:", error);
     }
   };
 }
