@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { authLogin, authLoginFailure, uiResetError } from "../store/actions";
+import { authLogin, uiResetError } from "../store/actions";
 import { getUI } from "../store/selectors";
 
 function Login({ handleShowMessage }) {
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector(getUI);
-  // const [isFetching, setIsFetching] = useState(false);
-  // const [error, setError] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(null);
@@ -40,9 +38,8 @@ function Login({ handleShowMessage }) {
     e.preventDefault();
     if (email && password) {
       try {
-        await dispatch(authLogin(requestBody, remember));
+        dispatch(authLogin(requestBody, remember));
       } catch (error) {
-        dispatch(authLoginFailure(error));
         handleShowMessage(error.message, "showFailure");
         setTimeout(() => {
           handleShowMessage("", "doNotShow");

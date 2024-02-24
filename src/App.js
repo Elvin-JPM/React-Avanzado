@@ -7,7 +7,6 @@ import CreateAddPage from "./Pages/CreateAddPage.js";
 import Ad from "./Components/Ad.js";
 import NotFound from "./Pages/NotFound.js";
 import RequireAuth from "./RequireAuth.js";
-import { RouterProvider as Router } from "react-router-dom";
 
 function App() {
   return (

@@ -5,6 +5,8 @@ let authToken = storage.get("authToken");
 let sessionToken = sessionStorage.getItem("authToken");
 let token = authToken || sessionToken;
 
+//////////////////////// LOGIN ///////////////////////////////////////
+
 export const login = async (requestBody, remember) => {
   try {
     const response = await postData("/auth/login", requestBody);
@@ -23,6 +25,8 @@ export const login = async (requestBody, remember) => {
   }
 };
 
+/////////////////////////// GET ADS //////////////////////////////
+
 export const getAds = async () => {
   try {
     const response = await getData("/v1/adverts", {
@@ -39,6 +43,8 @@ export const getAds = async () => {
     throw error;
   }
 };
+
+///////////////////////////////// LOAD ONE AD ///////////////////
 
 export const loadAd = async (adId) => {
   try {
@@ -90,5 +96,6 @@ export const deleteAd = async (id) => {
 
 export const getTags = async () => {
   const response = await getData("/v1/adverts/tags");
+  console.log(response);
   return response;
 };

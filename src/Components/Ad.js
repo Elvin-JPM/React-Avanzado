@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import storage from "../api/storage";
 import { useEffect, useState } from "react";
 import Button from "./Button";
 import Confirm from "./Confirm";
@@ -7,7 +6,7 @@ import styles from "../Components/Ad.module.css";
 import Header from "./Header";
 import { getAd } from "../store/selectors";
 import { useSelector, useDispatch } from "react-redux";
-import { adDelete, adDetail, loadAds } from "../store/actions";
+import { adDelete, adDetail } from "../store/actions";
 
 export default function Ad() {
   const navigate = useNavigate();
@@ -15,14 +14,6 @@ export default function Ad() {
   const ad = useSelector(getAd(params.id));
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
-
-  //////////// delete later /////////////
-
-  const authToken = storage.get("authToken");
-  const sessionToken = sessionStorage.getItem("authToken");
-  const token = authToken || sessionToken;
-
-  //////////////////////////////////////
 
   useEffect(() => {
     try {
@@ -43,18 +34,6 @@ export default function Ad() {
 
   const handleDeleteClick = async () => {
     dispatch(adDelete(ad));
-    // const response = await deleteData(`/v1/adverts/${ad.id}`, {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
-    // console.log("Response... :", response, ad.id);
-    // if (response) {
-    //   console.log(`$Item deleted`);
-    //   navigate("/Adds");
-    // } else {
-    //   console.error("Failed to delete item");
-    // }
   };
 
   return (

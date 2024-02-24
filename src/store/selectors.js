@@ -2,6 +2,8 @@ export const getIsLogged = (state) => state.auth;
 
 export const getAds = (state) => state.ads.data;
 
+export const getTags = (state) => state.tags;
+
 export const areAdsLoaded = (state) => state.ads.areAdsLoaded;
 
 export const getAd = (adId) => (state) =>

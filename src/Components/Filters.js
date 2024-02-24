@@ -1,8 +1,11 @@
+import { getTags } from "../store/selectors";
+import { useSelector } from "react-redux";
+
 function Filters({
   name,
   minPrice,
   maxPrice,
-  tags,
+  selectedTags,
   adType,
   onNameChange,
   onMinPriceChange,
@@ -10,6 +13,8 @@ function Filters({
   onTagsChange,
   onAdTypeChange,
 }) {
+  const allTags = useSelector(getTags);
+
   return (
     <div>
       <form>
@@ -41,51 +46,21 @@ function Filters({
           value={minPrice}
           onChange={onMinPriceChange}
         ></input>
+
         <label>Tags:</label>
 
-        <div>
-          <input
-            type="checkbox"
-            id="Motor"
-            value="Motor"
-            checked={tags.includes("Motor")}
-            onChange={() => onTagsChange("Motor")}
-          />
-          <label htmlFor="Motor">Motor</label>
-        </div>
-
-        <div>
-          <input
-            type="checkbox"
-            id="Work"
-            value="Work"
-            checked={tags.includes("Work")}
-            onChange={() => onTagsChange("Work")}
-          />
-          <label htmlFor="Work">Work</label>
-        </div>
-
-        <div>
-          <input
-            type="checkbox"
-            id="Lifestyle"
-            value="Lifestyle"
-            checked={tags.includes("Lifestyle")}
-            onChange={() => onTagsChange("Lifestyle")}
-          />
-          <label htmlFor="Lifestyle">Lifestyle</label>
-        </div>
-
-        <div>
-          <input
-            type="checkbox"
-            id="Electronics"
-            value="Electronics"
-            checked={tags.includes("Electronics")}
-            onChange={() => onTagsChange("Electronics")}
-          />
-          <label htmlFor="Electronics">Electronics</label>
-        </div>
+        {allTags.map((tag, index) => (
+          <div key={index}>
+            <input
+              type="checkbox"
+              id={tag}
+              value={tag}
+              checked={selectedTags.includes(tag)}
+              onChange={() => onTagsChange(tag)}
+            />
+            <label htmlFor={tag}>{tag}</label>
+          </div>
+        ))}
       </form>
     </div>
   );

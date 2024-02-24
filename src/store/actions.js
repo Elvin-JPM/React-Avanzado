@@ -1,3 +1,4 @@
+import { getTags } from "../api/service";
 import { getAd, areAdsLoaded } from "./selectors";
 
 import {
@@ -17,6 +18,9 @@ import {
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGOUT,
+  GET_TAGS_FAILURE,
+  GET_TAGS_REQUEST,
+  GET_TAGS_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -85,7 +89,7 @@ export function loadAds() {
   };
 }
 
-///////////.  ADD DETAILL ///////////////////////////////////////////////////////
+///////////  ADD DETAILL ///////////////////////////////////////////////////////
 
 export const adDetailSuccess = (ad) => ({
   type: AD_DETAIL_SUCCESS,
@@ -176,7 +180,37 @@ export function adDelete(ad) {
       const to = `/adds`;
       router.navigate(to);
     } catch (error) {
-      dispatch(adDeleteFailure());
+      dispatch(adDeleteFailure(error));
+      console.log("Error at adCreate:", error);
+    }
+  };
+}
+
+///////////////////////////// GET TAGS ///////////////////////////////////////////
+
+export const getTagsSuccess = (tags) => ({
+  type: GET_TAGS_SUCCESS,
+  payload: tags,
+});
+
+export const getTagsRequest = () => ({
+  type: GET_TAGS_REQUEST,
+});
+
+export const getTagsFailure = (error) => ({
+  type: GET_TAGS_FAILURE,
+  error: true,
+  payload: error,
+});
+
+export function getAllTags() {
+  return async function (dispatch, _getState, { api: {}, router }) {
+    try {
+      dispatch(getTagsRequest());
+      const tags = await getTags();
+      dispatch(getTagsSuccess(tags));
+    } catch (error) {
+      dispatch(getTagsFailure(error));
       console.log("Error at adCreate:", error);
     }
   };

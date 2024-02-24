@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import storage from "../api/storage";
-import { postData } from "../api/api";
 import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { adCreate } from "../store/actions";
+import { getTags } from "../api/service";
 
 function CreateAddPage() {
-  const navigate = useNavigate();
-
   const [name, setName] = useState("");
   const [radioOption, setRadioOption] = useState(""); // Selling or buying
   const [selectedOptions, setSelectedOptions] = useState([]); // tags
@@ -16,7 +13,9 @@ function CreateAddPage() {
   const [price, setPrice] = useState("");
   const [btnEnabled, setBtnEnabled] = useState(false);
   const dispatch = useDispatch();
-  // const [show, setShow] = useState(false);
+
+  const allTags = useSelector(getTags);
+  console.log("Inside CreateAdd.js:", allTags);
 
   const enabled =
     name.length !== "" &&
@@ -27,11 +26,6 @@ function CreateAddPage() {
   useEffect(() => {
     setBtnEnabled(enabled);
   }, [enabled]);
-
-  // const handleShow = () =>
-  // {
-  //   setShow(!show);
-  // }
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -113,6 +107,7 @@ function CreateAddPage() {
           Looking to buy
         </label>
         <br></br>
+
         <label>Tags:</label>
 
         <div>

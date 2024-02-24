@@ -2,18 +2,10 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import * as reducers from "./reducers";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import * as actionCreators from "./actions";
-import { ads } from "./reducers";
-import { thunk, withExtraArgument } from "redux-thunk";
+import { withExtraArgument } from "redux-thunk";
 import { getAds, login, loadAd, createAd, deleteAd } from "../api/service";
 
 const composeEnhancers = composeWithDevTools({ actionCreators });
-
-// const thunk = (extraArgument) => (store) => (next) => (action) => {
-//   if (typeof action === "function") {
-//     return action(store.dispatch, store.getState, extraArgument);
-//   }
-//   next(action);
-// };
 
 const logger = (store) => (next) => (action) => {
   console.group(action.type);
